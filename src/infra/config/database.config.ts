@@ -15,11 +15,13 @@ export interface DatabaseConfig
 
 export const DATABASE_CONFIG = 'DATABASE_CONFIG';
 
-export const DatabaseConfigValidationSchema =
-  Joi.object<EnvironmentVariablesForDatabaseConfig>({
-    DATABASE_URI: Joi.string().uri().required(),
-    DATABASE_SCHEMA: Joi.string().required(),
-  });
+export const DatabaseConfigValidationSchema = Joi.object<
+  EnvironmentVariablesForDatabaseConfig,
+  true
+>({
+  DATABASE_URI: Joi.string().uri().required(),
+  DATABASE_SCHEMA: Joi.string().required(),
+});
 
 export const databaseConfig = registerAs<DatabaseConfig>(
   DATABASE_CONFIG,

@@ -15,11 +15,13 @@ export type SrcConfig =
 
 export const SRC_CONFIG = 'SRC_CONFIG';
 
-export const SrcConfigValidationSchema =
-  Joi.object<EnvironmentVariablesForSrcConfig>({
-    SRC_FILE_EXTENSION: Joi.string().required(),
-    SRC_ROOT: Joi.string().required(),
-  });
+export const SrcConfigValidationSchema = Joi.object<
+  EnvironmentVariablesForSrcConfig,
+  true
+>({
+  SRC_FILE_EXTENSION: Joi.string().required(),
+  SRC_ROOT: Joi.string().required(),
+});
 
 export const srcConfig = registerAs<SrcConfig>(SRC_CONFIG, () => {
   const {
