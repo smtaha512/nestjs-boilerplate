@@ -49,22 +49,12 @@ export const EnvConfigValidationSchema = Joi.object<EnvironmentVariables>({
 export const ENV_CONFIG = 'ENV_CONFIG';
 export const envConfig = registerAs<EnvConfig>(ENV_CONFIG, () => {
   const {
-    env: {
-      ALLOWED_CORS_ORIGINS,
-      CORS_MAX_AGE_IN_SECONDS,
-      INVITATION_LINK_BASE_URL,
-      JWT_SECRET_KEY,
-      NODE_ENV,
-      PORT,
-      TZ,
-    },
+    env: { ALLOWED_CORS_ORIGINS, CORS_MAX_AGE_IN_SECONDS, NODE_ENV, PORT, TZ },
   } = process;
 
   const config: EnvConfig = {
     allowedCorsOrigins: ALLOWED_CORS_ORIGINS!,
     corsMaxAgeInSeconds: +CORS_MAX_AGE_IN_SECONDS!,
-    invitationLinkBaseUrl: INVITATION_LINK_BASE_URL!,
-    jwtSecretKey: JWT_SECRET_KEY!,
     nodeEnv: NODE_ENV as Environments,
     port: +PORT!,
     tz: TZ as APP_TIMEZONE,
