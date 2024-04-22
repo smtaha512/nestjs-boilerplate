@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { ConfigModule, registerAs } from '@nestjs/config';
 import * as Joi from 'joi';
-import { KeysFromSnakeToCamelCase } from '../shared/types/utility-types';
+import { KeysFromSnakeToCamelCase } from '../../shared/types/utility-types';
 
 type APP_TIMEZONE = 'UTC';
 const validTimezones: APP_TIMEZONE[] = ['UTC'];

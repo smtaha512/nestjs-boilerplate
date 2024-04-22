@@ -4,6 +4,7 @@ import {
   ConfigModule as NestConfigModule,
 } from '@nestjs/config';
 import { ConfigValidationSchema } from './config-validation.schema';
+import { databaseConfig } from './database.config';
 import { envConfig, envFilePaths } from './env.config';
 
 type GenericObject = Record<string, any>;
@@ -14,7 +15,6 @@ function validateEnvironmentConfig(config: GenericObject): GenericObject {
   );
 
   if (error) {
-    console.log(error.details);
     Logger.error(
       'Missing configuration. Please provide following variable:',
       ConfigService.name,
@@ -25,7 +25,7 @@ function validateEnvironmentConfig(config: GenericObject): GenericObject {
   return validatedEnvConfig;
 }
 
-const envConfigsToLoad = [envConfig];
+const envConfigsToLoad = [envConfig, databaseConfig];
 
 @Module({
   imports: [
@@ -34,7 +34,7 @@ const envConfigsToLoad = [envConfig];
       envFilePath: envFilePaths,
       load: envConfigsToLoad,
       validationSchema: ConfigValidationSchema,
-      validationOptions: { abortEarly: false },
+      validationOptions: { abortEarly: true },
       validate: validateEnvironmentConfig,
     }),
   ],
