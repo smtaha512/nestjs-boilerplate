@@ -9,8 +9,6 @@ const validTimezones: APP_TIMEZONE[] = ['UTC'];
 export interface EnvironmentVariables {
   ALLOWED_CORS_ORIGINS: string;
   CORS_MAX_AGE_IN_SECONDS: number;
-  INVITATION_LINK_BASE_URL: string;
-  JWT_SECRET_KEY: string;
   NODE_ENV: Environments;
   PORT: number;
   TZ: APP_TIMEZONE;
