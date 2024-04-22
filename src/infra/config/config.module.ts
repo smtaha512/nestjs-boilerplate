@@ -6,6 +6,7 @@ import {
 import { ConfigValidationSchema } from './config-validation.schema';
 import { databaseConfig } from './database.config';
 import { envConfig, envFilePaths } from './env.config';
+import { srcConfig } from './src.config';
 
 type GenericObject = Record<string, any>;
 function validateEnvironmentConfig(config: GenericObject): GenericObject {
@@ -25,7 +26,7 @@ function validateEnvironmentConfig(config: GenericObject): GenericObject {
   return validatedEnvConfig;
 }
 
-const envConfigsToLoad = [envConfig, databaseConfig];
+const envConfigsToLoad = [envConfig, databaseConfig, srcConfig];
 
 @Module({
   imports: [
