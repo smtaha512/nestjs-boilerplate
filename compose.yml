@@ -1,0 +1,21 @@
+services:
+  db:
+    ports:
+      - '5432:5432'
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=nestjs-boilerplate
+  db-testing:
+    ports:
+      - '5433:5432'
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=nestjs-boilerplate-testing
+
+volumes:
+  nestjs-boilerplate-data:
+    name: nestjs-boilerplate-data

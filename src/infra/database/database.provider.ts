@@ -5,23 +5,14 @@ import {
   DatabaseConfigInjectionKey,
 } from '../config/database.config';
 import { SrcConfig, SrcConfigInjectionKey } from '../config/src.config';
+import { dataSourceFactory } from './data-source';
 
 export const databaseProvider: Provider<DataSource> = {
   provide: 'DATA_SOURCE',
   useFactory: async (databaseConfig: DatabaseConfig, srcConfig: SrcConfig) => {
-    const { srcFileExtension, srcRoot } = srcConfig;
-
-    const dataSource = await new DataSource({
-      entities: [`${srcRoot}/**/*.typeorm.entity.${srcFileExtension}`],
-      migrations: [
-        `${srcRoot}/database/migrations/**.migration.${srcFileExtension}`,
-      ],
-      schema: databaseConfig.databaseSchema,
-      type: databaseConfig.type,
-      url: databaseConfig.databaseUri,
-      dropSchema: false,
-      synchronize: false,
-    }).initialize();
+    const dataSource = await new DataSource(
+      dataSourceFactory(databaseConfig, srcConfig),
+    ).initialize();
 
     await dataSource
       .createQueryRunner()
