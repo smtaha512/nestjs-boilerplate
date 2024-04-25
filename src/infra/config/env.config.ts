@@ -8,6 +8,7 @@ const validTimezones: APP_TIMEZONE[] = ['UTC'];
 
 export interface EnvironmentVariables {
   ALLOWED_CORS_ORIGINS: string;
+  APP_NAME: string;
   CORS_MAX_AGE_IN_SECONDS: number;
   NODE_ENV: Environments;
   PORT: number;
@@ -37,6 +38,7 @@ export const envFilePaths: EnvFilePath[] = [
 export const EnvConfigValidationSchema = Joi.object<EnvironmentVariables, true>(
   {
     ALLOWED_CORS_ORIGINS: Joi.string().uri(),
+    APP_NAME: Joi.string().required(),
     CORS_MAX_AGE_IN_SECONDS: Joi.number(),
     NODE_ENV: Joi.string()
       .valid(...environments)
@@ -51,11 +53,19 @@ export const EnvConfigValidationSchema = Joi.object<EnvironmentVariables, true>(
 export const ENV_CONFIG = 'ENV_CONFIG';
 export const envConfig = registerAs<EnvConfig>(ENV_CONFIG, () => {
   const {
-    env: { ALLOWED_CORS_ORIGINS, CORS_MAX_AGE_IN_SECONDS, NODE_ENV, PORT, TZ },
+    env: {
+      ALLOWED_CORS_ORIGINS,
+      APP_NAME,
+      CORS_MAX_AGE_IN_SECONDS,
+      NODE_ENV,
+      PORT,
+      TZ,
+    },
   } = process;
 
   const config: EnvConfig = {
     allowedCorsOrigins: ALLOWED_CORS_ORIGINS!,
+    appName: APP_NAME!,
     corsMaxAgeInSeconds: +CORS_MAX_AGE_IN_SECONDS!,
     nodeEnv: NODE_ENV as Environments,
     port: +PORT!,
