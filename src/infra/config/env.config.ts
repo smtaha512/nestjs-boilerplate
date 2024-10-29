@@ -20,7 +20,7 @@ export type EnvFilePath = `.env.${Environments}`;
 
 export enum Environments {
   LOCAL = 'local',
-  TESTING = 'testing',
+  TEST = 'test',
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
   STAGING = 'staging',
@@ -31,7 +31,7 @@ export const envFilePaths: EnvFilePath[] = [
   Environments.PRODUCTION,
   Environments.STAGING,
   Environments.DEVELOPMENT,
-  Environments.TESTING,
+  Environments.TEST,
   Environments.LOCAL,
 ].map((env) => `.env.${env}` as EnvFilePath);
 
