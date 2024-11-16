@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "prettier.configPath": ".prettierrc",
+  "eslint.format.enable": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always",
+    "source.fixAll": "always"
+  },
+  "eslint.options": { "overrideConfigFile": "./eslint.config.mjs" }
+}
