@@ -35,40 +35,31 @@ export const envFilePaths: EnvFilePath[] = [
   Environments.LOCAL,
 ].map((env) => `.env.${env}` as EnvFilePath);
 
-export const EnvConfigValidationSchema = Joi.object<EnvironmentVariables, true>(
-  {
-    ALLOWED_CORS_ORIGINS: Joi.string().uri(),
-    APP_NAME: Joi.string().required(),
-    CORS_MAX_AGE_IN_SECONDS: Joi.number(),
-    NODE_ENV: Joi.string()
-      .valid(...environments)
-      .required(),
-    PORT: Joi.number().required(),
-    TZ: Joi.string()
-      .valid(...validTimezones)
-      .required(),
-  },
-);
+export const EnvConfigValidationSchema = Joi.object<EnvironmentVariables, true>({
+  ALLOWED_CORS_ORIGINS: Joi.string().uri(),
+  APP_NAME: Joi.string().required(),
+  CORS_MAX_AGE_IN_SECONDS: Joi.number(),
+  NODE_ENV: Joi.string()
+    .valid(...environments)
+    .required(),
+  PORT: Joi.number().required(),
+  TZ: Joi.string()
+    .valid(...validTimezones)
+    .required(),
+});
 
 export const ENV_CONFIG = 'ENV_CONFIG';
 export const envConfig = registerAs<EnvConfig>(ENV_CONFIG, () => {
   const {
-    env: {
-      ALLOWED_CORS_ORIGINS,
-      APP_NAME,
-      CORS_MAX_AGE_IN_SECONDS,
-      NODE_ENV,
-      PORT,
-      TZ,
-    },
+    env: { ALLOWED_CORS_ORIGINS, APP_NAME, CORS_MAX_AGE_IN_SECONDS, NODE_ENV, PORT, TZ },
   } = process;
 
   const config: EnvConfig = {
-    allowedCorsOrigins: ALLOWED_CORS_ORIGINS!,
-    appName: APP_NAME!,
-    corsMaxAgeInSeconds: +CORS_MAX_AGE_IN_SECONDS!,
+    allowedCorsOrigins: ALLOWED_CORS_ORIGINS ?? '',
+    appName: APP_NAME ?? '',
+    corsMaxAgeInSeconds: +(CORS_MAX_AGE_IN_SECONDS ?? ''),
     nodeEnv: NODE_ENV as Environments,
-    port: +PORT!,
+    port: +(PORT ?? 3000),
     tz: TZ as APP_TIMEZONE,
   };
 

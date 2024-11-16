@@ -1,25 +1,19 @@
 import { Logger, Module } from '@nestjs/common';
-import {
-  ConfigService,
-  ConfigModule as NestConfigModule,
-} from '@nestjs/config';
+import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
 import { ConfigValidationSchema } from './config-validation.schema';
 import { databaseConfig } from './database.config';
 import { envConfig, envFilePaths } from './env.config';
 import { srcConfig } from './src.config';
 
-type GenericObject = Record<string, any>;
+type GenericObject = Record<string, unknown>;
 function validateEnvironmentConfig(config: GenericObject): GenericObject {
-  const { error, value: validatedEnvConfig } = ConfigValidationSchema.validate(
-    config,
-    { allowUnknown: true, stripUnknown: true },
-  );
+  const { error, value: validatedEnvConfig } = ConfigValidationSchema.validate(config, {
+    allowUnknown: true,
+    stripUnknown: true,
+  });
 
   if (error) {
-    Logger.error(
-      'Missing configuration. Please provide following variable:',
-      ConfigService.name,
-    );
+    Logger.error('Missing configuration. Please provide following variable:', ConfigService.name);
     Logger.error(error.message, ConfigService.name);
     process.exit(1);
   }

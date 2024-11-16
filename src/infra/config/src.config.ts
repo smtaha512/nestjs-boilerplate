@@ -10,15 +10,11 @@ export interface EnvironmentVariablesForSrcConfig {
   SRC_FILE_EXTENSION: AllowedFileExtensions;
 }
 
-export type SrcConfig =
-  KeysFromSnakeToCamelCase<EnvironmentVariablesForSrcConfig>;
+export type SrcConfig = KeysFromSnakeToCamelCase<EnvironmentVariablesForSrcConfig>;
 
 export const SRC_CONFIG = 'SRC_CONFIG';
 
-export const SrcConfigValidationSchema = Joi.object<
-  EnvironmentVariablesForSrcConfig,
-  true
->({
+export const SrcConfigValidationSchema = Joi.object<EnvironmentVariablesForSrcConfig, true>({
   SRC_FILE_EXTENSION: Joi.string().required(),
   SRC_ROOT: Joi.string().required(),
 });
@@ -30,7 +26,7 @@ export const srcConfig = registerAs<SrcConfig>(SRC_CONFIG, () => {
 
   const config: SrcConfig = {
     srcFileExtension: SRC_FILE_EXTENSION as AllowedFileExtensions,
-    srcRoot: SRC_ROOT!,
+    srcRoot: SRC_ROOT ?? 'src',
   };
 
   return config;

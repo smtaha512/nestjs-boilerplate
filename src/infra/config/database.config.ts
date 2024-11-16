@@ -8,39 +8,31 @@ export interface EnvironmentVariablesForDatabaseConfig {
   DATABASE_SCHEMA: string;
 }
 
-export interface DatabaseConfig
-  extends KeysFromSnakeToCamelCase<EnvironmentVariablesForDatabaseConfig> {
+export interface DatabaseConfig extends KeysFromSnakeToCamelCase<EnvironmentVariablesForDatabaseConfig> {
   type: 'postgres';
 }
 
 export const DATABASE_CONFIG = 'DATABASE_CONFIG';
 
-export const DatabaseConfigValidationSchema = Joi.object<
-  EnvironmentVariablesForDatabaseConfig,
-  true
->({
+export const DatabaseConfigValidationSchema = Joi.object<EnvironmentVariablesForDatabaseConfig, true>({
   DATABASE_URI: Joi.string().uri().required(),
   DATABASE_SCHEMA: Joi.string().required(),
 });
 
-export const databaseConfig = registerAs<DatabaseConfig>(
-  DATABASE_CONFIG,
-  () => {
-    const {
-      env: { DATABASE_URI, DATABASE_SCHEMA },
-    } = process;
+export const databaseConfig = registerAs<DatabaseConfig>(DATABASE_CONFIG, () => {
+  const {
+    env: { DATABASE_URI, DATABASE_SCHEMA },
+  } = process;
 
-    const config: DatabaseConfig = {
-      databaseSchema: DATABASE_SCHEMA!,
-      databaseUri: DATABASE_URI!,
-      type: 'postgres',
-    };
+  const config: DatabaseConfig = {
+    databaseSchema: DATABASE_SCHEMA ?? '',
+    databaseUri: DATABASE_URI ?? '',
+    type: 'postgres',
+  };
 
-    return config;
-  },
-);
+  return config;
+});
 
 export const DatabaseConfigInjectionKey = databaseConfig.KEY;
 export const InjectDatabaseConfig = Inject(DatabaseConfigInjectionKey);
-export const DatabaseConfigFeatureModule =
-  ConfigModule.forFeature(databaseConfig);
+export const DatabaseConfigFeatureModule = ConfigModule.forFeature(databaseConfig);
