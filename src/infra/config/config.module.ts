@@ -1,5 +1,5 @@
 import { Logger, Module } from '@nestjs/common';
-import { ConfigService, ConfigModule as NestConfigModule } from '@nestjs/config';
+import { ConfigModule as NestConfigModule } from '@nestjs/config';
 import { ConfigValidationSchema } from './config-validation.schema';
 import { databaseConfig } from './database.config';
 import { envConfig, envFilePaths } from './env.config';
@@ -13,8 +13,8 @@ function validateEnvironmentConfig(config: GenericObject): GenericObject {
   });
 
   if (error) {
-    Logger.error('Missing configuration. Please provide following variable:', ConfigService.name);
-    Logger.error(error.message, ConfigService.name);
+    Logger.error('Error while parsing environment variables:', ConfigModule.name);
+    Logger.error(error.message, ConfigModule.name);
     process.exit(1);
   }
   return validatedEnvConfig;
